@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Afterlight</title>
+<meta name="description" content="Abandoned, but not forgotten. Six NASA missions and the science they left behind.">
+<style>
+:root{--bg:#070b14;--card:#0d1422;--line:#1d2a42;--text:#e8eef9;--mute:#8d9bb5;--blue:#4aa8e8;--amber:#e8b04a;--ok:#3ecf8e;--bad:#e5645a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.6}
+a{color:var(--blue)}
+header{position:sticky;top:0;z-index:10;background:rgba(7,11,20,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:14px 16px}
+header a.brand{color:var(--text);text-decoration:none;letter-spacing:.14em;font-weight:700;font-size:13px}
+nav{display:flex;gap:14px;flex-wrap:wrap}
+nav a{color:var(--mute);text-decoration:none;font-size:13px;padding:8px 2px;min-height:44px;display:inline-flex;align-items:center}
+nav a:hover,nav a:focus{color:var(--text)}
+main{max-width:760px;margin:0 auto;padding:0 16px 60px}
+.eyebrow{color:var(--blue);letter-spacing:.2em;font-size:11px;text-transform:uppercase;margin:36px 0 8px}
+h1{font-size:44px;line-height:1.05;margin:6px 0 12px}
+h1 span{color:var(--blue)}
+h2{font-size:26px;line-height:1.2;margin:6px 0 12px}
+p.lead{font-size:18px}
+.mute{color:var(--mute)}
+.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 18px;border:1px solid var(--blue);background:#0c2036;color:var(--text);text-decoration:none;border-radius:6px;font-size:15px;cursor:pointer}
+.btn:focus,.opt:focus,a:focus,button:focus{outline:2px solid var(--amber);outline-offset:2px}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--amber));transition:width .4s}
+.grid{display:grid;gap:14px;grid-template-columns:1fr}
+@media(min-width:640px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;text-decoration:none;color:var(--text);display:block}
+.card .img{height:170px;background:#000 center/cover no-repeat}
+.card .body{padding:14px}
+.tag{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue)}
+.tag.mars{color:var(--amber)}
+.card h3{margin:4px 0 4px;font-size:21px}
+.stamp{float:right;font-size:12px;border:1px solid var(--ok);color:var(--ok);padding:2px 8px;border-radius:99px}
+figure{margin:18px 0}
+figure img{width:100%;border-radius:8px;display:block;background:#000}
+figcaption{font-size:13px;color:var(--mute);margin-top:6px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:16px 0;margin:20px 0}
+.stats b{display:block;font-size:22px}
+.stats small{color:var(--mute);font-size:12px}
+details{background:var(--card);border:1px solid var(--line);border-radius:8px;margin:10px 0;padding:0 14px}
+summary{cursor:pointer;min-height:48px;display:flex;align-items:center;font-weight:600}
+details p{margin:0 0 14px;color:var(--mute)}
+.opt{display:block;width:100%;text-align:left;background:var(--card);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:14px;margin:8px 0;font-size:16px;min-height:48px;cursor:pointer}
+.opt.right{border-color:var(--ok);background:#0c2a20}
+.opt.wrong{border-color:var(--bad);background:#2a1210}
+.fb{margin:10px 0;color:var(--mute);font-size:15px}
+.fb b.ok{color:var(--ok)}.fb b.no{color:var(--bad)}
+.note{font-size:13px;color:var(--mute);border-top:1px solid var(--line);margin-top:30px;padding-top:14px}
+footer{border-top:1px solid var(--line);padding:20px 16px;color:var(--mute);font-size:13px;text-align:center}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+.slot{border:1px dashed var(--line);border-radius:10px;padding:16px;text-align:center;min-height:90px;display:flex;flex-direction:column;justify-content:center}
+.slot.got{border:1px solid var(--ok);background:#0c2a20}
+.slot .s{font-size:26px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{border-bottom:1px solid var(--line);padding:8px 6px;text-align:left;vertical-align:top}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <a class="brand" href="#/">PROJECT AFTERLIGHT</a>
+  <nav aria-label="Main"><a href="#/">Missions</a><a href="#/passport">Passport</a><a href="#/credits">Credits</a></nav>
+</header>
+<main id="app" tabindex="-1"></main>
+<footer>Independent educational project. Not affiliated with NASA. NASA-sourced science and images. <a href="#/credits">Credits</a><br>Created for the "Abandoned but Not Forgotten" challenge, NASA Space Apps 2026.</footer>
+
+<script>
+const M=[
+{id:"apollo-11",n:"Apollo 11",where:"Moon",tag:"Science left on the surface",line:"The science they left behind.",
+ intro:"Footprints fade slowly. Scientific legacies last longer. Discover the instruments that turned humanity's first steps on the Moon into a new way of understanding our nearest neighbor.",
+ img:"https://www.hq.nasa.gov/alsj/a11/AS11-40-5948HR.jpg",
+ cap:"Aldrin after deploying the Early Apollo Scientific Experiments Package; the Passive Seismic Experiment is in the foreground and the lunar module at far right. July 20, 1969. Photo by Neil Armstrong.",
+ credit:"NASA",cid:"AS11-40-5948",
+ stats:[["1969","Lunar deployment"],["100","Reflector corner cubes"],["~3 weeks","Seismometer operation"]],
+ ctx:"Apollo 11's Early Apollo Scientific Experiments Package included a passive seismometer and a laser-ranging reflector. Their stories are different: one stopped returning data; the other was designed to work without electrical power.",
+ ev:[["Listening to the Moon","The passive seismometer recorded moonquakes and impacts for about three weeks before it stopped returning data."],["A mirror without power","The laser-ranging reflector has 100 corner cubes and needs no electrical power, so it keeps working as a target for lasers from Earth."],["Left behind, not useless","Instruments left on the surface still shape how scientists understand the Moon."]],
+ q:[["Which Apollo 11 instrument works without onboard power?",["The passive seismometer","The laser-ranging reflector","A solar-powered radio"],1,"The reflector is passive: it just bounces laser light back."],
+    ["How many corner cubes does the reflector have?",["10","100","1,000"],1,"It carries 100 corner cubes."],
+    ["About how long did the seismometer operate?",["3 weeks","3 years","3 days"],0,"It ran for roughly three weeks."],
+    ["Who took the photo of Aldrin after deploying the instruments?",["Neil Armstrong","Pete Conrad","Alan Bean"],0,"Armstrong took the photo, so he is not in it."]],
+ src:[["Apollo 11 seismic experiment","https://www.nasa.gov/history/apollo-11-seismic-experiment/"],["NASA lunar science","https://moon.nasa.gov/"]]},
+{id:"surveyor-3",n:"Surveyor 3",where:"Moon",tag:"Visited by Apollo 12",line:"A robot visited by astronauts.",
+ intro:"Surveyor 3 soft-landed on the Moon in 1967. Two and a half years later, Apollo 12 astronauts walked up to it, examined it, and brought pieces of it home.",
+ img:"https://www.hq.nasa.gov/alsj/a12/AS12-48-7136HR.jpg",
+ cap:"Charles Conrad Jr. examines Surveyor 3, with the lunar module in the background. November 20, 1969. Photo by Alan L. Bean.",
+ credit:"NASA",cid:"AS12-48-7136",
+ stats:[["1967","Landed April 19"],["600 ft","Apollo 12 landing distance"],["1969","Astronaut visit, Nov 20"]],
+ ctx:"Surveyor 3 was an uncrewed spacecraft that landed on the side of a small crater in the Ocean of Storms on April 19, 1967. Apollo 12 landed within 600 feet of it, and on November 20, 1969, astronauts Charles Conrad Jr. and Alan L. Bean examined it during their second moonwalk.",
+ ev:[["Surveyor 3 in its crater","The spacecraft sat on the slope of a small crater in the Ocean of Storms."],["Hands-on with another spacecraft","Apollo 12's crew walked to Surveyor 3 and examined it up close."],["Pieces brought home","Parts of the spacecraft were brought back to Earth for study."]],
+ q:[["When did Surveyor 3 soft-land on the Moon?",["July 20, 1969","April 19, 1967","November 20, 1969"],1,"It landed April 19, 1967."],
+    ["Where did it land?",["Sea of Tranquility","Ocean of Storms","Mare Crisium"],1,"It landed in the Ocean of Storms."],
+    ["How close did Apollo 12 land to it?",["About 600 feet","About 60 miles","About 6 miles"],0,"Apollo 12 landed within 600 feet."],
+    ["Which astronauts examined it?",["Conrad and Bean","Armstrong and Aldrin","Shepard and Mitchell"],0,"Conrad and Bean examined it on their second moonwalk."]],
+ src:[["NASA image AS12-48-7136","https://www.hq.nasa.gov/alsj/a12/images12.html"]]},
+{id:"opportunity",n:"Opportunity",where:"Mars",tag:"Mission complete",line:"A small rover. An extraordinary journey.",
+ intro:"Built for 90 Martian days, Opportunity explored for nearly 15 years. Follow the evidence of ancient water and the remarkable scientific journey of a rover that kept going.",
+ img:"https://photojournal.jpl.nasa.gov/jpeg/PIA10077.jpg",
+ cap:"Opportunity's robotic arm at work inside Victoria Crater.",
+ credit:"NASA/JPL-Caltech",cid:"PIA10077",
+ stats:[["90 sols","Planned surface mission"],["45.16 km","Total distance driven"],["5,352","Martian days on Mars"]],
+ ctx:"Opportunity landed at Meridiani Planum on January 25, 2004 (UTC). Its last communication arrived on June 10, 2018, during a planet-wide dust storm. NASA declared the mission complete on February 13, 2019.",
+ ev:[["The Martian 'blueberries'","Small mineral spherules found by the rover were part of the evidence that water once affected the rocks."],["A marathon beyond Earth","Opportunity drove 45.16 km, far beyond what its designers planned."],["When the light disappeared","A planet-wide dust storm blocked sunlight, and the rover never recovered contact."]],
+ q:[["What did Opportunity's mineral discoveries help establish?",["That Mars has forests","That microbial life was discovered","That liquid water once affected Martian rocks"],2,"The minerals showed water once affected the rocks."],
+    ["How long was Opportunity's planned mission?",["90 sols","90 years","9 sols"],0,"It was designed for 90 sols."],
+    ["Where did Opportunity land?",["Gusev Crater","Meridiani Planum","Jezero Crater"],1,"Opportunity landed at Meridiani Planum."],
+    ["When did NASA declare the mission complete?",["February 13, 2019","June 10, 2018","January 25, 2004"],0,"Declared complete on February 13, 2019."]],
+ src:[["NASA Opportunity mission overview","https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"]]},
+{id:"spirit",n:"Spirit",where:"Mars",tag:"Mission complete",line:"Stuck in the sand. Still making discoveries.",
+ intro:"Planned for 90 Martian days, Spirit explored Gusev Crater for more than six years, climbed Husband Hill, and uncovered evidence that ancient Mars was much wetter.",
+ img:"https://photojournal.jpl.nasa.gov/jpeg/PIA17760.jpg",
+ cap:"View southward from Husband Hill, part of a panorama Spirit took in October 2005.",
+ credit:"NASA/JPL-Caltech/Cornell Univ.",cid:"PIA17760",
+ stats:[["90 sols","Planned mission"],["7.73 km","Total distance driven"],["2011","Mission declared complete"]],
+ ctx:"Spirit landed inside Gusev Crater in January 2004. It became stuck in soft soil on May 1, 2009, and was turned into a stationary science platform in early 2010. After March 22, 2010, controllers could not regain contact, and NASA ended recovery efforts on May 25, 2011.",
+ ev:[["The view from Cumberland Ridge","Spirit also imaged a circular overhead-style view from Cumberland Ridge (PIA07410), a different picture from the hero panorama."],["A wheel that found silica","Spirit's dragging wheel exposed bright silica-rich soil, evidence of past water."],["Stuck, then silent","Stuck in soft soil in 2009, Spirit went quiet after March 22, 2010."]],
+ q:[["How long was Spirit's original planned mission?",["90 Martian days","1 Earth year","6 years"],0,"The plan was 90 Martian days."],
+    ["Which crater did Spirit explore?",["Gusev Crater","Victoria Crater","Gale Crater"],0,"Spirit explored Gusev Crater."],
+    ["When did Spirit become stuck in soft soil?",["May 1, 2009","March 22, 2010","May 25, 2011"],0,"It became stuck on May 1, 2009."],
+    ["What did Spirit's wheel uncover?",["Silica-rich soil","Fossils","A frozen lake"],0,"Bright silica, a sign of past water."]],
+ src:[["NASA Spirit mission overview","https://science.nasa.gov/mission/mars-exploration-rovers-spirit-and-opportunity/"],["NASA image PIA17760","https://photojournal.jpl.nasa.gov/catalog/PIA17760"]]},
+{id:"sojourner",n:"Sojourner",where:"Mars",tag:"Mission complete",line:"The first rover on Mars. Planned for a week.",
+ intro:"Sojourner was planned for a seven-day mission. It explored the Martian terrain for 83 days, taking images and chemical, atmospheric, and other measurements.",
+ img:"https://photojournal.jpl.nasa.gov/jpeg/PIA00968.jpg",small:true,
+ cap:"Sojourner's APXS deployed against the rock 'Stimpy,' sol 68.",
+ credit:"NASA/JPL",cid:"PIA00968",
+ stats:[["7 days","Planned mission"],["83 days","Days of exploration"],["1998","Mission ended March 10"]],
+ ctx:"Sojourner explored Mars with the Mars Pathfinder lander. The final data transmission from Pathfinder arrived at 10:23 UTC on September 27, 1997. Mission managers tried to restore full communications for five months before the mission was ended on March 10, 1998.",
+ ev:[["Reading a rock called 'Stimpy'","Sojourner pressed its APXS instrument against the rock to measure its chemistry."],["Seven days became 83","Planned for a week, the rover worked for 83 days."],["The final transmission","The last data from Pathfinder arrived September 27, 1997."]],
+ q:[["How long was Sojourner's planned mission?",["Seven days","90 days","One year"],0,"Seven days."],
+    ["How many days did it actually explore?",["83","7","365"],0,"83 days."],
+    ["What was the rock named in the APXS photo?",["Stimpy","Husband","Victoria"],0,"The rock was called Stimpy."],
+    ["When did the mission end?",["March 10, 1998","September 27, 1997","July 4, 1997"],0,"The mission was ended March 10, 1998."]],
+ src:[["NASA image PIA00968","https://photojournal.jpl.nasa.gov/catalog/PIA00968"],["NASA Mars Pathfinder","https://science.nasa.gov/mission/mars-pathfinder/"]]},
+{id:"voyager-1",n:"Voyager 1",where:"Deep space",tag:"Interstellar mission",line:"Beyond the planets. Not forgotten.",
+ intro:"A spacecraft built in the 1970s became our first emissary to interstellar space. Explore the boundary it crossed and the record of Earth it carries into the darkness.",
+ img:"https://photojournal.jpl.nasa.gov/jpeg/PIA17464.jpg",
+ cap:"Launch of Voyager 1 from NASA's Kennedy Space Center at Cape Canaveral, September 5, 1977. The spacecraft itself is not visible; it is inside the rocket's nose cone.",
+ credit:"NASA/KSC",cid:"PIA17464",
+ stats:[["1977","Launched September 5"],["2012","Interstellar crossing"],["115","Images on the record"]],
+ ctx:"Voyager 1 is included as a contrast, not as an abandoned spacecraft. NASA's Voyager Interstellar Mission continues its scientific legacy. Operational details change; NASA's mission pages are the authoritative source for the latest status.",
+ ev:[["Across the heliopause","In 2012 Voyager 1 crossed the heliopause, the boundary where the Sun's influence gives way to interstellar space."],["A portrait of our world","The Golden Record carries 115 images of Earth, with sounds and greetings."],["Not an abandoned explorer","Unlike the others, Voyager 1 is not abandoned. See NASA's mission page for its current status."]],
+ q:[["What boundary did Voyager 1 cross in 2012?",["The heliopause","The edge of the Milky Way","The orbit of the Moon"],0,"The heliopause."],
+    ["In what year did Voyager 1 launch?",["1977","1969","1997"],0,"September 5, 1977."],
+    ["How many images are on the Golden Record?",["115","15","1,150"],0,"115 images."],
+    ["Is Voyager 1 considered an abandoned spacecraft?",["No, it is part of an ongoing mission","Yes, contact was lost in 1980","Yes, it was left on the Moon"],0,"It is part of the Voyager Interstellar Mission."]],
+ src:[["NASA Voyager mission","https://science.nasa.gov/mission/voyager/"],["Golden Record","https://voyager.jpl.nasa.gov/golden-record/"]]}
+];
+const CREDITS=[
+["AS11-40-5948","Aldrin and the Early Apollo Scientific Experiments Package","NASA"],
+["AS12-48-7136","Conrad examines Surveyor 3","NASA"],
+["PIA10077","Opportunity's arm in Victoria Crater","NASA/JPL-Caltech"],
+["PIA17760","Husband Hill panorama (Spirit)","NASA/JPL-Caltech/Cornell Univ."],
+["PIA00968","Sojourner APXS at 'Stimpy'","NASA/JPL"],
+["PIA17464","Voyager 1 launch, September 5, 1977","NASA/KSC"]
+];
+const KEY="afterlight-passport-v1";
+function load(){try{return JSON.parse(localStorage.getItem(KEY))||{}}catch(e){return {}}}
+function save(o){try{localStorage.setItem(KEY,JSON.stringify(o))}catch(e){}}
+let mem=load();
+function stamps(){return M.filter(m=>mem[m.id]).length}
+const app=document.getElementById("app");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function imgTag(m,cls){return `<img src="${m.img}" alt="${esc(m.n+": "+m.cap)}" loading="lazy" onerror="this.outerHTML='<p class=mute>Photo unavailable here. See the NASA source link below.</p>'" ${m.small?'style="max-width:460px;margin:0 auto"':''}>`}
+function home(){
+  const n=stamps();
+  app.innerHTML=`
+  <div class="eyebrow">NASA Space Apps Challenge 2026</div>
+  <h1>PROJECT<br><span>AFTERLIGHT.</span></h1>
+  <p class="lead">Abandoned, but not forgotten.</p>
+  <p class="mute">Some explorers fall silent. Others journey beyond our reach. All of them leave something behind. Discover the science, the stories, and the legacy that endures.</p>
+  <p><a class="btn" href="#missions">Explore the missions &rarr;</a></p>
+  <div class="eyebrow" id="missions">Explorer passport</div>
+  <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="6" aria-valuenow="${n}"><i style="width:${n/6*100}%"></i></div>
+  <p class="mute">${n} of 6 missions explored. <a href="#/passport">Open passport</a></p>
+  <h2>Six missions. Countless discoveries.</h2>
+  <p class="mute">Follow their journeys. Uncover their evidence. Remember what they made possible.</p>
+  <div class="grid">${M.map((m,i)=>`<a class="card" href="#/m/${m.id}"><div class="img" role="img" aria-label="${esc(m.n)}" style="background-image:url('${m.img}')"></div><div class="body">${mem[m.id]?'<span class="stamp">Stamped</span>':''}<div class="tag ${m.where=="Mars"?"mars":""}">Explorer 0${i+1} &middot; ${m.where}</div><h3>${m.n}</h3><div class="mute">${m.line}</div></div></a>`).join("")}</div>
+  <p class="note">All mission images are NASA photographs; see <a href="#/credits">Credits</a>. Scientific claims are linked to NASA sources. Voyager 1 is not an abandoned mission.</p>`;
+}
+function mission(id){
+  const i=M.findIndex(x=>x.id===id); if(i<0){return home()}
+  const m=M[i], next=M[(i+1)%M.length];
+  app.innerHTML=`
+  <p><a href="#/">&larr; All missions</a></p>
+  <div class="eyebrow">Explorer 0${i+1} / ${m.where}</div>
+  <h1 style="font-size:40px">${m.n}</h1>
+  <p class="lead">${m.line}</p>
+  <p class="mute">${m.intro}</p>
+  <figure>${imgTag(m)}<figcaption>${m.cap}<br>Credit: ${m.credit} &middot; ${m.cid}</figcaption></figure>
+  <div class="stats">${m.stats.map(s=>`<div><b>${s[0]}</b><small>${s[1]}</small></div>`).join("")}</div>
+  <div class="eyebrow">The mission in context</div>
+  <h2>What remains is a story worth knowing.</h2>
+  <p class="mute">${m.ctx}</p>
+  <div class="eyebrow">Follow the evidence</div>
+  <h2>Discoveries, not just destinations.</h2>
+  ${m.ev.map(e=>`<details><summary>${e[0]}</summary><p>${e[1]}</p></details>`).join("")}
+  <div class="eyebrow">A moment of discovery</div>
+  <h2>Put your knowledge to the test.</h2>
+  <div id="quiz"></div>
+  <div class="eyebrow">The source archive</div>
+  ${m.src.map(s=>`<p><a href="${s[1]}" target="_blank" rel="noopener">${s[0]} &#8599;</a></p>`).join("")}
+  <p><a class="btn" href="#/m/${next.id}">Next: ${next.n} &rarr;</a></p>`;
+  quiz(m);
+}
+function quiz(m){
+  let qi=0,score=0;const box=document.getElementById("quiz");
+  function show(){
+    if(qi>=m.q.length){
+      const won=score>=3; if(won){mem[m.id]=true;save(mem)}
+      box.innerHTML=`<p class="lead"><b>${score} of ${m.q.length}</b></p><p class="fb">${won?'<b class="ok">Stamp earned.</b> Open your <a href="#/passport">passport</a> to see it.':'You need 3 or more for the stamp.'}</p><button class="btn" id="again">Try again</button>`;
+      document.getElementById("again").onclick=()=>{qi=0;score=0;show()};return;
+    }
+    const q=m.q[qi];
+    box.innerHTML=`<div class="tag">Question ${qi+1} of ${m.q.length}</div><p class="lead">${q[0]}</p>`+q[1].map((o,k)=>`<button class="opt" data-k="${k}">${String.fromCharCode(65+k)} &nbsp; ${o}</button>`).join("")+`<div class="fb" id="fb" aria-live="polite"></div>`;
+    box.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{
+      const k=+b.dataset.k, ok=k===q[2]; if(ok)score++;
+      box.querySelectorAll(".opt").forEach((x,j)=>{x.disabled=true;if(j===q[2])x.classList.add("right");else if(x===b)x.classList.add("wrong")});
+      document.getElementById("fb").innerHTML=(ok?'<b class="ok">Correct.</b> ':'<b class="no">Not quite.</b> ')+q[3]+'<br><br><button class="btn" id="nx">'+(qi===m.q.length-1?"See score":"Next question")+'</button>';
+      document.getElementById("nx").onclick=()=>{qi++;show()};
+    });
+  }
+  show();
+}
+function passport(){
+  const n=stamps();
+  app.innerHTML=`<div class="eyebrow">Explorer passport</div><h1 style="font-size:36px">${n} of 6 missions explored</h1>
+  <div class="bar"><i style="width:${n/6*100}%"></i></div>
+  <p class="mute">Score 3 or more on a mission quiz to earn its stamp. Progress is saved in this browser.</p>
+  <div class="pgrid">${M.map(m=>`<a class="slot ${mem[m.id]?'got':''}" href="#/m/${m.id}" style="text-decoration:none;color:inherit"><div class="s">${mem[m.id]?'&#9733;':'&#9734;'}</div><b>${m.n}</b><small class="mute">${mem[m.id]?'Stamped':'Not yet'}</small></a>`).join("")}</div>
+  ${n===6?'<h2>All six explored. Well done, explorer.</h2><p class="mute">You explored the science and stories these missions left behind.</p>':''}
+  <p><button class="btn" id="reset">Reset passport</button></p>`;
+  document.getElementById("reset").onclick=()=>{if(confirm("Reset all stamps?")){mem={};save(mem);passport()}};
+}
+function credits(){
+  app.innerHTML=`<div class="eyebrow">Credits</div><h1 style="font-size:36px">Sources and credits</h1>
+  <p class="mute">This independent educational project is not affiliated with NASA. Images and facts are from NASA sources.</p>
+  <table><tr><th>NASA ID</th><th>Image</th><th>Credit</th></tr>${CREDITS.map(c=>`<tr><td>${c[0]}</td><td>${c[1]}</td><td>${c[2]}</td></tr>`).join("")}</table>
+  <p class="note">Mission facts are drawn from NASA mission pages linked at the bottom of each mission. This site was built with the help of an AI assistant (Claude by Anthropic) for code and writing support; facts were checked against NASA sources.</p>`;
+}
+function route(){
+  const h=location.hash.replace(/^#/,"")||"/";
+  if(h.startsWith("/m/"))mission(h.slice(3));
+  else if(h==="/passport")passport();
+  else if(h==="/credits")credits();
+  else home();
+  if(h!=="missions")window.scrollTo(0,0);
+  document.title="Project Afterlight";
+}
+window.addEventListener("hashchange",route);
+route();
+</script>
+</body>
+</html>
